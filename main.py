@@ -6,6 +6,7 @@ from model import DCGAN
 from utils import pp, visualize, to_json, show_all_variables
 
 import tensorflow as tf
+from keras.models import Model
 
 flags = tf.app.flags
 flags.DEFINE_integer("epoch", 25, "Epoch to train [25]")
@@ -53,7 +54,7 @@ def main(_):
           output_height=FLAGS.output_height,
           batch_size=FLAGS.batch_size,
           sample_num=FLAGS.batch_size,
-          y_dim=10,
+          #y_dim=10,
           dataset_name=FLAGS.dataset,
           input_fname_pattern=FLAGS.input_fname_pattern,
           crop=FLAGS.crop,
@@ -92,6 +93,8 @@ def main(_):
     # Below is codes for visualization
     OPTION = 1
     visualize(sess, dcgan, FLAGS, OPTION)
+    model = Model(dcgan.z, dcgan.generator(z))
+    model.save('dcgan_model.h5')
 
 if __name__ == '__main__':
   tf.app.run()

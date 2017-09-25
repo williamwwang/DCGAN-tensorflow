@@ -485,7 +485,8 @@ class DCGAN(object):
     for i, label in enumerate(y):
       y_vec[i,y[i]] = 1.0
     
-    return X/255.,y_vec
+    ind_digit = np.where(y == 0)[0]
+    return (X/255.)[ind_digit],y_vec[ind_digit]
 
   @property
   def model_dir(self):
